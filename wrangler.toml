@@ -1,6 +1,6 @@
 name = "cloudflare-temp-mail"
 main = "src/worker.ts"
-compatibility_date = "2026-04-11"
+compatibility_date = "2026-04-10"
 
 [assets]
 directory = "./public"
