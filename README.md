@@ -2,21 +2,20 @@
 
 Cloudflare Temp Mail is the Workers-based successor architecture for Lin Mail.
 
-This repository starts with:
+Current status (Task 1 bootstrap only):
 
-- a Cloudflare Worker HTTP shell
-- public and admin static pages
-- `/api/health`
-- `/api/config`
-- automated baseline tests
+- repository initialized for the new Workers codebase
+- TypeScript, Wrangler, and Vitest toolchain dependencies
+- npm scripts scaffolded for `dev`, `deploy`, `test`, and `typecheck`
 
 The old Node/VPS implementation stays separate and unchanged.
 
-## Development
+## Bootstrap
 
 ```powershell
 npm install
-npm run test
-npm run typecheck
-npm run dev
 ```
+
+## Next Tasks
+
+`/api/health`, `/api/config`, Worker routing, static shells, and automated tests are implemented in follow-up tasks.
