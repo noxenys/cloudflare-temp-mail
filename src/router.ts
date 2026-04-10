@@ -6,6 +6,7 @@ import { json } from "./responses";
 
 export async function route(request: Request, env: AppEnv): Promise<Response> {
   const url = new URL(request.url);
+  const isApiRoute = url.pathname === "/api" || url.pathname.startsWith("/api/");
 
   if (request.method === "GET" && url.pathname === "/api/health") {
     return handleHealth();
@@ -15,8 +16,12 @@ export async function route(request: Request, env: AppEnv): Promise<Response> {
     return handleConfig(env);
   }
 
-  if (url.pathname.startsWith("/api/")) {
+  if (isApiRoute) {
     return json({ error: "Route not found." }, { status: 404 });
+  }
+
+  if (request.method !== "GET" && request.method !== "HEAD") {
+    return json({ error: "Method not allowed." }, { status: 405 });
   }
 
   return handleStatic(request, env);

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { readFile } from "node:fs/promises";
 import worker from "../src/worker";
 
 const assetResponse = (body: string, contentType: string) =>
@@ -27,6 +28,11 @@ const env = {
 } as Env;
 
 describe("worker static routes", () => {
+  it("returns 404 for /api boundary path", async () => {
+    const response = await worker.fetch(new Request("https://example.workers.dev/api"), env);
+    expect(response.status).toBe(404);
+  });
+
   it("serves the public shell from assets", async () => {
     const response = await worker.fetch(new Request("https://example.workers.dev/"), env);
     expect(response.status).toBe(200);
@@ -37,5 +43,36 @@ describe("worker static routes", () => {
     const response = await worker.fetch(new Request("https://example.workers.dev/admin.html"), env);
     expect(response.status).toBe(200);
     expect(await response.text()).toContain("admin shell");
+  });
+
+  it("does not use static fallback for non-GET/HEAD requests", async () => {
+    let assetFetchCalls = 0;
+    const envWithCounter = {
+      ...env,
+      ASSETS: {
+        fetch() {
+          assetFetchCalls += 1;
+          return Promise.resolve(new Response("unexpected", { status: 200 }));
+        }
+      }
+    } as Env;
+
+    const response = await worker.fetch(new Request("https://example.workers.dev/", { method: "POST" }), envWithCounter);
+    expect(response.status).toBe(405);
+    expect(assetFetchCalls).toBe(0);
+  });
+});
+
+describe("static shell files", () => {
+  it("index.html exists and references shared assets", async () => {
+    const indexHtml = await readFile(new URL("../public/index.html", import.meta.url), "utf-8");
+    expect(indexHtml).toContain('href="/styles.css"');
+    expect(indexHtml).toContain('src="/app.js"');
+  });
+
+  it("admin.html exists and references shared assets", async () => {
+    const adminHtml = await readFile(new URL("../public/admin.html", import.meta.url), "utf-8");
+    expect(adminHtml).toContain('href="/styles.css"');
+    expect(adminHtml).toContain('src="/app.js"');
   });
 });
