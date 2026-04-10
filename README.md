@@ -31,6 +31,7 @@ npm run dev
 ```
 
 By default Wrangler serves the Worker locally (usually at `http://127.0.0.1:8787`).
+`PUBLIC_BASE_URL` is an optional override; when unset, `GET /api/config` uses the request origin.
 
 ## Verification Commands
 

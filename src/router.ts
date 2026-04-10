@@ -13,7 +13,7 @@ export async function route(request: Request, env: AppEnv): Promise<Response> {
   }
 
   if (request.method === "GET" && url.pathname === "/api/config") {
-    return handleConfig(env);
+    return handleConfig(request, env);
   }
 
   if (isApiRoute) {

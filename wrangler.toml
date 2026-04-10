@@ -8,4 +8,3 @@ binding = "ASSETS"
 
 [vars]
 APP_NAME = "Lin Mail"
-PUBLIC_BASE_URL = "https://cloudflare-temp-mail.workers.dev"
