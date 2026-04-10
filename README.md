@@ -1,21 +1,53 @@
 # Cloudflare Temp Mail
 
-Cloudflare Temp Mail is the Workers-based successor architecture for Lin Mail.
+Cloudflare Temp Mail is the Cloudflare Workers-based successor architecture for Lin Mail.
 
-Current status (Task 1 bootstrap only):
+## Current Baseline
 
-- repository initialized for the new Workers codebase
-- TypeScript, Wrangler, and Vitest toolchain dependencies
-- npm scripts scaffolded for `dev`, `deploy`, `test`, and `typecheck`
+This repository now includes:
 
-The old Node/VPS implementation stays separate and unchanged.
+- TypeScript Worker entry and route layer (`src/worker.ts`, `src/router.ts`)
+- Public static shells served via assets binding (`public/index.html`, `public/admin.html`, shared JS/CSS)
+- API endpoints:
+  - `GET /api/health`
+  - `GET /api/config`
+- Vitest coverage for API routing and static fallback behavior (`tests/worker.test.ts`, `tests/static.test.ts`)
+- Local scripts for development, deployment, tests, and type checking
 
-## Bootstrap
+The old Node/VPS implementation remains separate and unchanged.
+
+## Local Development
+
+Install dependencies:
 
 ```powershell
 npm install
 ```
 
-## Next Tasks
+Run local Worker dev server:
 
-`/api/health`, `/api/config`, Worker routing, static shells, and automated tests are implemented in follow-up tasks.
+```powershell
+npm run dev
+```
+
+By default Wrangler serves the Worker locally (usually at `http://127.0.0.1:8787`).
+
+## Verification Commands
+
+Run automated tests:
+
+```powershell
+npm run test
+```
+
+Run TypeScript type check:
+
+```powershell
+npm run typecheck
+```
+
+## Deploy
+
+```powershell
+npm run deploy
+```
