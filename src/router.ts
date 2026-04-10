@@ -1,6 +1,7 @@
 import type { AppEnv } from "./env";
-import { handleConfig } from "./handlers/config";
 import { handleHealth } from "./handlers/health";
+import { handleConfig } from "./handlers/config";
+import { handleStatic } from "./handlers/static";
 import { json } from "./responses";
 
 export async function route(request: Request, env: AppEnv): Promise<Response> {
@@ -18,5 +19,5 @@ export async function route(request: Request, env: AppEnv): Promise<Response> {
     return json({ error: "Route not found." }, { status: 404 });
   }
 
-  return new Response("Static handler not implemented yet", { status: 501 });
+  return handleStatic(request, env);
 }
