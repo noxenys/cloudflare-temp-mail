@@ -1,13 +1,14 @@
 function safeSegment(value: string): string {
-  return value.replace(/[^a-zA-Z0-9._-]/g, "_");
+  // Persistent key protocol: segment encoding must be reversible and collision-free.
+  return encodeURIComponent(value);
 }
 
 export function rawMessageObjectKey(messageId: string): string {
   return `messages/raw/${safeSegment(messageId)}.eml`;
 }
 
-export function attachmentObjectKey(messageId: string, attachmentId: string, filename: string): string {
-  return `messages/attachments/${safeSegment(messageId)}/${safeSegment(attachmentId)}-${safeSegment(filename)}`;
+export function attachmentObjectKey(messageId: string, attachmentId: string, _filename: string): string {
+  return `messages/attachments/${safeSegment(messageId)}/${safeSegment(attachmentId)}`;
 }
 
 export function mailboxSummaryKey(mailboxId: string): string {
