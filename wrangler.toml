@@ -1,0 +1,11 @@
+name = "cloudflare-temp-mail"
+main = "src/worker.ts"
+compatibility_date = "2026-04-11"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+
+[vars]
+APP_NAME = "Lin Mail"
+PUBLIC_BASE_URL = "https://cloudflare-temp-mail.workers.dev"
